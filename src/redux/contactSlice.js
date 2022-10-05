@@ -23,7 +23,11 @@ const contactSlice = createSlice({
         [fetchContact.rejected]: (state, { payload }) => ({ ...state, isLoading: false, error: payload }),
         // addContact
         [addContact.pending]: (state, _) => ({ ...state, isLoading: true }),
-        [addContact.fulfilled]: (state, { payload }) => ({ ...state, items: [payload, ...state.items], isLoading: false }),
+        [addContact.fulfilled](state, {payload}) {
+            state.isLoading = false;
+            state.error = null;
+            state.items.push(payload);
+        },
         [addContact.rejected]: (state, { payload }) => ({ ...state, isLoading: false, error: payload }),
         // deleteContact
         [deleteContact.pending]: (state, _) => ({ ...state, isLoading: true }),

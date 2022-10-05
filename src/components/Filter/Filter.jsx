@@ -1,23 +1,31 @@
 import shortid from 'shortid';
 import './index.css';
-import PropTypes from 'prop-types';
+import { useContacts } from 'hook/hook';
+import { useSelector } from 'react-redux';
+import { getFilter } from 'redux/selector';
 
-const Filter = ({onChange, value}) => {
+
+
+
+const Filter = () => {
     const filterId = shortid.generate();
+
+    
+    const { filterContacts } = useContacts();
+    const filter = useSelector(getFilter);
+    
+    const handleChangeInput = e => {
+        const { value } = e.target;
+        filterContacts(value);
+    };
 
     return (
         <label htmlFor={filterId} className='filter_label'>
-        Find contact by name
-            <input id={filterId} type="text" value={value} onChange={onChange} className='filter_input' />
-    </label>
+            Find contact by name
+            <input id={filterId} type="text" value={filter} onChange={handleChangeInput} className='filter_input' />
+        </label>
     );
 };
-
-
-Filter.prototype = {
-    onChange: PropTypes.func.isRequired,
-    value: PropTypes.func.isRequired
-}
 
 
 export default Filter;
